@@ -13,6 +13,8 @@
 		6EB2D6E02514DB380098896A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB2D6DE2514DB380098896A /* Main.storyboard */; };
 		6EB2D6E22514DB440098896A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EB2D6E12514DB440098896A /* Assets.xcassets */; };
 		6EB2D6E52514DB440098896A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EB2D6E32514DB440098896A /* LaunchScreen.storyboard */; };
+		6EB2D6ED2514F4970098896A /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB2D6EC2514F4970098896A /* TableViewController.swift */; };
+		6EB2D6EF2514F4C60098896A /* addViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB2D6EE2514F4C60098896A /* addViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		6EB2D6E12514DB440098896A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EB2D6E42514DB440098896A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6EB2D6E62514DB440098896A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6EB2D6EC2514F4970098896A /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		6EB2D6EE2514F4C60098896A /* addViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				6EB2D6E12514DB440098896A /* Assets.xcassets */,
 				6EB2D6E32514DB440098896A /* LaunchScreen.storyboard */,
 				6EB2D6E62514DB440098896A /* Info.plist */,
+				6EB2D6EC2514F4970098896A /* TableViewController.swift */,
+				6EB2D6EE2514F4C60098896A /* addViewController.swift */,
 			);
 			path = schejulerApp;
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 				6EB2D6DD2514DB380098896A /* ViewController.swift in Sources */,
 				6EB2D6D92514DB380098896A /* AppDelegate.swift in Sources */,
 				6EB2D6DB2514DB380098896A /* SceneDelegate.swift in Sources */,
+				6EB2D6EF2514F4C60098896A /* addViewController.swift in Sources */,
+				6EB2D6ED2514F4970098896A /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
