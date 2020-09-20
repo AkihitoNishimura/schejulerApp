@@ -10,32 +10,65 @@ import UIKit
 
 class addViewController: UIViewController {
     
-    var Array=[String]()
+    var taskArray=[String]()
+    var timeArray=[String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //入力時のキーボード置き換え
+        timeTextField.inputView=timePicker
+        
 
-        if UserDefaults.standard.object(forKey: "add") != nil{
+        if UserDefaults.standard.object(forKey: "add") != nil && UserDefaults.standard.object(forKey: "time") != nil{
                     
-        Array = UserDefaults.standard.object(forKey: "add") as! [String]
+            taskArray = UserDefaults.standard.object(forKey: "add") as! [String]
+            timeArray = UserDefaults.standard.object(forKey: "time") as! [String]
+            
         }
         
     }
     
+    //UIDatePickerをインスタンス化
+       let timePicker: UIDatePicker = {
+           let dp = UIDatePicker()
+           //UIdatepickerのモードをtimeへ
+           dp.datePickerMode = UIDatePicker.Mode.time
+           dp.timeZone = NSTimeZone.local
+           //時間をJapanese(24時間表記)に変更
+           dp.locale = Locale.init(identifier: "Japanese")
+          //選択している値が変わるたびにdateChangeという関数を呼ぶ
+           dp.addTarget(self, action: #selector(dateChange), for: .valueChanged)
+           //最小単位（分）を設定
+           dp.minuteInterval = 10
+           return dp
+       }()
+       
+       @objc func dateChange(){
+           let formatter = DateFormatter()
+           formatter.dateFormat = "hh時:mm分"
+           timeTextField.text = "\(formatter.string(from: timePicker.date))"
+       }
+    
     
     @IBOutlet weak var addTextField: UITextField!
     
+    @IBOutlet weak var timeTextField: UITextField!
+    
     @IBAction func addButton(_ sender: Any) {
         
-        Array.append(addTextField.text!)
+        taskArray.append(addTextField.text!)
+        timeArray.append(timeTextField.text!)
                 
-        //        データ保存
-                UserDefaults.standard.set(Array, forKey:"add")
+        //データ保存
+        UserDefaults.standard.set(taskArray, forKey:"add")
+        UserDefaults.standard.set(timeArray, forKey:"time")
                 
-        //        戻る
-                self.navigationController?.popViewController(animated: true)
+        //戻る
+        self.navigationController?.popViewController(animated: true)
         
     }
+    
     
     /*
     // MARK: - Navigation

@@ -11,17 +11,18 @@ import UIKit
 class TableViewController: UITableViewController {
     
     var resultArray=[String]()
+    var timeArray=[String]()
     
     override func viewWillAppear(_ animated: Bool) {
         
-        
         //        UserDefaultsがnilでなければ
                 
-                if UserDefaults.standard.object(forKey: "add") != nil{
+                if UserDefaults.standard.object(forKey: "add") != nil && UserDefaults.standard.object(forKey: "time") != nil{
                     
         //            現在UserDefaultsに保存された配列の値をresultArrayに入れる
                     
                     resultArray = UserDefaults.standard.object(forKey: "add") as! [String]
+                    timeArray = UserDefaults.standard.object(forKey: "time") as! [String]
                 
                 }
                 
@@ -31,6 +32,10 @@ class TableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 一時的に保存したデータを消す(テスト時のみ)
+        UserDefaults.standard.removeObject(forKey: "add")
+        UserDefaults.standard.removeObject(forKey: "time")
         
         //戻るボタンを隠す
         self.navigationItem.hidesBackButton = true
@@ -62,7 +67,7 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
 
-        cell.textLabel?.text=resultArray[indexPath.row]
+        cell.textLabel?.text=resultArray[indexPath.row] + timeArray[indexPath.row]
 
         return cell
     }
