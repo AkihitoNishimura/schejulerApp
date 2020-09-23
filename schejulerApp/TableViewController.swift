@@ -70,7 +70,11 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
 
-        cell.textLabel?.text=resultArray[indexPath.row] + timeArray[indexPath.row] + intervalArray[indexPath.row]
+        cell.textLabel?.text=resultArray[indexPath.row]
+        
+        cell.detailTextLabel?.text=timeArray[indexPath.row] +  intervalArray[indexPath.row]
+        
+        
 
         return cell
     }
