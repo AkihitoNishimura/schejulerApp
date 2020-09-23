@@ -49,11 +49,13 @@ class addViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         timeTextField.inputAccessoryView = toolBar
         intervalTextField.inputAccessoryView = toolBar
         
-        
         //入力時のキーボード置き換え
         timeTextField.inputView=timePicker
         intervalTextField.inputView=intervalPicker
         
+        //textfield初期値
+        dateChange()
+        intervalTextField.text=String(intervalDate[intervalPicker.selectedRow(inComponent: 0)])+"日"
 
         if UserDefaults.standard.object(forKey: "add") != nil && UserDefaults.standard.object(forKey: "time") != nil && UserDefaults.standard.object(forKey: "interval") != nil{
                     
@@ -70,11 +72,11 @@ class addViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         self.view.endEditing(true)
     }
     
-       @objc func dateChange(){
-           let formatter = DateFormatter()
-           formatter.dateFormat = "hh時:mm分"
-           timeTextField.text = "\(formatter.string(from: timePicker.date))"
-       }
+    @objc func dateChange(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh時:mm分"
+        timeTextField.text = "\(formatter.string(from: timePicker.date))"
+    }
     
     
     
