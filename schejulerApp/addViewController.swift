@@ -18,36 +18,16 @@ class addViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     var taskArray=[String]()
     var timeArray=[String]()
     var intervalArray=[String]()
-
+    
+    var taskDic=["task":[String](),"time":[String](),"interval":[String]()]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         intervalPicker.delegate=self
         
-        //UIdatepickerのモードをtimeへ
-        timePicker.datePickerMode=UIDatePicker.Mode.countDownTimer
-        timePicker.timeZone=NSTimeZone.local
-        //時間をJapanese(24時間表記)に変更
-        timePicker.locale=Locale.init(identifier:"Japanese")
-        //選択している値が変わるたびにdateChangeという関数を呼ぶ
-        timePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
-        //最小単位（分）を設定
-        timePicker.minuteInterval=10
-        
-        // ツールバー生成 サイズはsizeToFitメソッドで自動で調整される。
-        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        //サイズの自動調整。敢えて手動で実装したい場合はCGRectに記述してsizeToFitは呼び出さない。
-        toolBar.sizeToFit()
-        // 左側のBarButtonItemはflexibleSpace。これがないと右に寄らない。
-        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
-        // Doneボタン
-        let commitButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(commitButtonTapped))
-        // BarButtonItemの配置
-        toolBar.items = [spacer, commitButton]
-        // textViewのキーボードにツールバーを設定
-        timeTextField.inputAccessoryView = toolBar
-        intervalTextField.inputAccessoryView = toolBar
+        maketimePicker()
+        editToolbar()
         
         //入力時のキーボード置き換え
         timeTextField.inputView=timePicker
@@ -57,28 +37,18 @@ class addViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         dateChange()
         intervalTextField.text=String(intervalDate[intervalPicker.selectedRow(inComponent: 0)])+"日"
 
-        if UserDefaults.standard.object(forKey: "add") != nil && UserDefaults.standard.object(forKey: "time") != nil && UserDefaults.standard.object(forKey: "interval") != nil{
-                    
-            taskArray = UserDefaults.standard.object(forKey: "add") as! [String]
-            timeArray = UserDefaults.standard.object(forKey: "time") as! [String]
-            intervalArray = UserDefaults.standard.object(forKey: "interval") as! [String]
+        
+        if UserDefaults.standard.object(forKey: "list") != nil{
+            
+            taskDic=UserDefaults.standard.object(forKey: "list") as! Dictionary
+            
+            taskArray=taskDic["task"]! as [String]
+            timeArray=taskDic["time"]! as [String]
+            intervalArray=taskDic["interval"]! as [String]
             
         }
         
     }
-    
-       
-    @objc func commitButtonTapped() {
-        self.view.endEditing(true)
-    }
-    
-    @objc func dateChange(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "hh時:mm分"
-        timeTextField.text = "\(formatter.string(from: timePicker.date))"
-    }
-    
-    
     
     @IBOutlet weak var addTextField: UITextField!
     
@@ -91,15 +61,55 @@ class addViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         taskArray.append(addTextField.text!)
         timeArray.append(timeTextField.text!)
         intervalArray.append(intervalTextField.text!)
-                
-        //データ保存
-        UserDefaults.standard.set(taskArray, forKey:"add")
-        UserDefaults.standard.set(timeArray, forKey:"time")
-        UserDefaults.standard.set(intervalArray, forKey:"interval")
+        
+        taskDic.updateValue(taskArray, forKey: "task")
+        taskDic.updateValue(timeArray, forKey: "time")
+        taskDic.updateValue(intervalArray, forKey: "interval")
+        
+        UserDefaults.standard.set(taskDic, forKey: "list")
                 
         //戻る
         self.navigationController?.popViewController(animated: true)
         
+    }
+    
+    
+     private func editToolbar(){
+         // ツールバー生成 サイズはsizeToFitメソッドで自動で調整される。
+         let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+         //サイズの自動調整。敢えて手動で実装したい場合はCGRectに記述してsizeToFitは呼び出さない。
+         toolBar.sizeToFit()
+         // 左側のBarButtonItemはflexibleSpace。これがないと右に寄らない。
+         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
+         // Doneボタン
+         let commitButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(commitButtonTapped))
+         // BarButtonItemの配置
+         toolBar.items = [spacer, commitButton]
+         // textViewのキーボードにツールバーを設定
+         timeTextField.inputAccessoryView = toolBar
+         intervalTextField.inputAccessoryView = toolBar
+     }
+     
+     private func maketimePicker(){
+         //UIdatepickerのモードをtimeへ
+         timePicker.datePickerMode=UIDatePicker.Mode.countDownTimer
+         timePicker.timeZone=NSTimeZone.local
+         //時間をJapanese(24時間表記)に変更
+         timePicker.locale=Locale.init(identifier:"Japanese")
+         //選択している値が変わるたびにdateChangeという関数を呼ぶ
+         timePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
+         //最小単位（分）を設定
+         timePicker.minuteInterval=10
+     }
+       
+    @objc func commitButtonTapped() {
+        self.view.endEditing(true)
+    }
+    
+    @objc func dateChange(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh時:mm分"
+        timeTextField.text = "\(formatter.string(from: timePicker.date))"
     }
     
 

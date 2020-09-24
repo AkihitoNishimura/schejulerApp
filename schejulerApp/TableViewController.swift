@@ -10,24 +10,25 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    var resultArray=[String]()
+    var taskArray=[String]()
     var timeArray=[String]()
     var intervalArray=[String]()
     
+    var taskDic=["task":[String](),"time":[String](),"interval":[String]()]
+    
     override func viewWillAppear(_ animated: Bool) {
         
-        //        UserDefaultsがnilでなければ
-                
-                if UserDefaults.standard.object(forKey: "add") != nil && UserDefaults.standard.object(forKey: "time") != nil && UserDefaults.standard.object(forKey: "interval") != nil{
-                    
-        //            現在UserDefaultsに保存された配列の値をresultArrayに入れる
-                    
-                    resultArray = UserDefaults.standard.object(forKey: "add") as! [String]
-                    timeArray = UserDefaults.standard.object(forKey: "time") as! [String]
-                    intervalArray = UserDefaults.standard.object(forKey: "interval") as! [String]
-                    
-                }
-                
+        //UserDefaultsがnilでなければ
+        if UserDefaults.standard.object(forKey: "list") != nil{
+
+            //現在UserDefaultsに保存された辞書の値をtaskDicに入れる
+            taskDic=UserDefaults.standard.object(forKey: "list") as! Dictionary
+            
+            taskArray=taskDic["task"]! as [String]
+            timeArray=taskDic["time"]! as [String]
+            intervalArray=taskDic["interval"]! as [String]
+            
+        }
                 tableView.reloadData()
         
     }
@@ -36,9 +37,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         // 一時的に保存したデータを消す(テスト時のみ)
-        UserDefaults.standard.removeObject(forKey: "add")
-        UserDefaults.standard.removeObject(forKey: "time")
-        UserDefaults.standard.removeObject(forKey: "interval")
+        UserDefaults.standard.removeObject(forKey: "list")
         
         //戻るボタンを隠す
         self.navigationItem.hidesBackButton = true
@@ -63,14 +62,14 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return resultArray.count
+        return taskArray.count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
 
-        cell.textLabel?.text=resultArray[indexPath.row]
+        cell.textLabel?.text=taskArray[indexPath.row]
         
         cell.detailTextLabel?.text=timeArray[indexPath.row] +  intervalArray[indexPath.row]
         
